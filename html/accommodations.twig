@@ -1,0 +1,12 @@
+{% for accommodation in accommodations %}
+	<div id="accommodation_container{{ accommodation.id }}" class="col-md-6">
+		<input type="hidden" id="accommodation_id" value="{{ accommodation.id }}">
+		<img id="accommodation_image_{{ accommodation.id }}" class="col-md-12 accommodation_image" src="./images/{{ accommodation.image }}">
+		<div class="col-md-2 accommodation_price_container"><h4 id="accommodation_price{{ accommodation.id }}" class="accommodation_price">€ {{ accommodation.total_price }}</h4></div>
+
+		<div class="name_container col-md-12">
+			<div class="col-md-12 accommodation_name" id="accommodation_name{{ accommodation.id }}"><h4>{{  accommodation.name }}</h4></div>
+		</div>
+	</div>
+
+{% endfor %}

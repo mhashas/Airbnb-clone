@@ -1,0 +1,46 @@
+body {
+	background-repeat:no-repeat;
+	background-image:url(../images/background.jpg);
+	background-size: 100%;
+	height: 100vh;
+	width: 100%;
+}
+
+
+#welcome_home {
+	color: white;
+	text-align: center;
+	font-size: 4em;
+	text-shadow: 3px 3px 0px #000;
+	position: relative;
+	top: 93px;
+}
+
+#welcome_home_p {
+	color: white;
+	text-align: center;
+	font-size: 2em;
+	text-shadow: 3px 3px 0px #000;
+	position: relative;
+	top: 100px;
+}
+
+
+.search_container {
+	position: relative;
+	top: 145px;
+	left: 20%;
+	/*right: 0;*/
+	max-width: 80%;
+}
+
+#airbnb_image{
+	width: 200px;
+}
+
+#submit_btn {
+	color: #fff;
+	background-color: #d9534f;
+	border-color: #d43f3a;
+	height: 33px;
+}

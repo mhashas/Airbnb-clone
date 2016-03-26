@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="./css/airbnb_search_results.css" rel="stylesheet" type="text/css"/>
+	<link href="./css/general.css" rel="stylesheet" type="text/css"/>
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+	<script src="./js/mod_search_results.js"></script>
+	<title>Airbnb</title>
+	<script>
+		$(function () {
+			$("#start_date_picker").datepicker({
+				minDate: 0,
+				changeMonth: true,
+				numberOfMonths: 3,
+				onClose: function (selectedDate) {
+					$("#end_date_picker").datepicker("option", "minDate", selectedDate);
+				}
+			});
+			$("#end_date_picker").datepicker({
+				minDate: 0,
+				changeMonth: true,
+				numberOfMonths: 3,
+				onClose: function (selectedDate) {
+					$("#start_date_picker").datepicker("option", "maxDate", selectedDate);
+				}
+			});
+			$("#slider-range").slider({
+				range: true,
+				min: 0,
+				max: 1500,
+				values: [1, 1500],
+				slide: function (event, ui) {
+					$("#amount").val("€" + ui.values[0] + " - €" + ui.values[1]);
+					$("#min_price").val(ui.values[0]);
+					$("#max_price").val(ui.values[1]);
+					refreshData('search_parameters');
+				}
+			});
+			var current_min_value = $("#slider-range").slider("values", 0);
+			var max_price = $("#slider-range").slider("values", 1);
+
+			$("#amount").val("€" + current_min_value +
+					" - €" + max_price);
+
+		});
+	</script>
+</head>
+
+<body>
+	<div id="airbnb_logo" class="col-md-1">
+		<img id="airbnb_image" src="./images/logo.png">
+	</div>
+
+	<div id="search_container" class="search_container col-md-11">
+		<form id="search_parameters" method="post" action="ajax.php">
+			<input type="hidden" name="submitted" value="1"/>
+			<input type="hidden" name="min_amount" id="min_price" value="{{ MIN_PRICE }}">
+			<input type="hidden" name="max_amount" id="max_price" value="{{ MAX_PRICE }}">
+			<input type="hidden" name="action" value="refresh-data" />
+			<input class="col-md-12" type="text" placeholder="Search" name="city" id="city" value="{{ CURRENT_CITY }}" onchange="refreshData('search_parameters')">
+			<div class="col-md-6" id="rest_of_search_parameters">
+				<input name="start_date" type="text" name="start_date" id="start_date_picker" class="col-md-4 margin-top-20 margin-left-40" placeholder="First day of your vacation" value="{{ CURRENT_START_DATE }}"
+				       onchange="refreshData('search_parameters')">
+				<input name="end_date" type="text" name="end_date" id="end_date_picker" class="col-md-4 margin-top-20 margin-left-10" placeholder="Last day of your vacation" value="{{ CURRENT_END_DATE }}"
+				       onchange="refreshData('search_parameters')">
+				<select name="number_of_guests" class="col-md-3 margin-top-20 margin-left-10" onchange="refreshData('search_parameters')">
+					{% for i in 1..15 %}
+						<option id="option_{{ i }}" value="{{ i }}" {% if CURRENT_NR_OF_GUESTS == i %} selected="selected" {% endif %}>{{ i }} Guests</option>
+					{% endfor %}
+					<option id="option_16" {% if CURRENT_NR_OF_GUESTS == 16 %} selected="selected" {% endif %} value="16">16+ Guests</option>
+				</select>
+
+				<div class="col-md-11 thin_border margin-top-20 margin-left-51"></div>
+				<h2 class="col-md-2 writting margin-left-40" id="room_type">Room type</h2>
+				{% for type in type_array %}
+					<label class="col-md-3 margin-top-26"><input name="type{{ type.index }}" type="checkbox" {% if type.value %} selected="selected" {% endif %} onchange="refreshData('search_parameters')"><span
+								class="writting">{{ type.name }}</span></label>
+				{% endfor %}
+
+				<div class="col-md-11 thin_border margin-top-20 margin-left-51"></div>
+
+
+				<div id="slider" class="col-md-11 margin-top-20 margin-left-51">
+				<p>
+					<label for="amount">Price range:</label>
+					<input type="text" id="amount" readonly>
+				</p>
+				<div id="slider-range"></div>
+				</div>
+			</div>
+
+
+		</form>
+	</div>
+
+	<div id="map_container" class="col-md-6 pull-right">
+		<div id="map"></div>
+	</div>
+
+	<div class="col-md-6" id="search_results">
+		{% for accommodation in accommodations %}
+			<div id="accommodation_container{{ accommodation.id }}" class="col-md-6">
+				<input type="hidden" id="accommodation_id" value="{{ accommodation.id }}">
+				<img id="accommodation_image_{{ accommodation.id }}" class="col-md-12 accommodation_image" src="./images/{{ accommodation.image }}">
+				<div class="col-md-2 accommodation_price_container"><h4 id="accommodation_price{{ accommodation.id }}" class="accommodation_price">€ {{ accommodation.total_price }}</h4></div>
+
+				<div class="name_container col-md-12">
+					<div class="col-md-12 accommodation_name" id="accommodation_name{{ accommodation.id }}"><h4>{{  accommodation.name }}</h4></div>
+				</div>
+			</div>
+
+		{% endfor %}
+	</div>
+	</div>
+</body>
+<script>
+	initialize_map_search({{ GMAP_LAT }}, {{ GMAP_LONG }}, 4, false);
+</script>
+</html>

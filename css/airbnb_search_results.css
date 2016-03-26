@@ -1,0 +1,107 @@
+#airbnb_image {
+	border-right: 1px solid #DCE0E0;
+	border-bottom: 1px solid #DCE0E0;
+}
+
+#airbnb_logo {
+	display: inline;
+	float: left;
+	padding: 0;
+}
+
+#city {
+	display: inline-table;
+	height: 75px;
+}
+
+#account_management {
+	background-color: #555555;
+	height: 75px;
+	display: inline;
+}
+
+.margin-top-20 {
+	margin-top: 20px;
+}
+
+#map_container {
+	height: 955px;
+	display: inline-block;
+	position: relative;
+	bottom: 206px;
+}
+
+.writting {
+	color: black;
+	text-decoration: none;
+	font: 16px Arial;
+}
+
+#room_type {
+	float: left;
+	font-size: 25px;
+	padding: 0px;
+}
+
+#search_container {
+	float: left;
+	padding: 0;
+}
+
+#search_results {
+	background-color: #F5F5F5;
+	float: left;
+	clear: left;
+	height: 80%;
+	position: relative;
+	margin-top: 50px;
+	display: inline-block;
+}
+
+#rest_of_search_parameters {
+	position: relative;
+	float: left;
+	left: -173px;
+}
+
+#amount {
+	border: 0;
+	color: #F6931F;
+	font-weight: bold
+}
+
+#accomodation_template {
+	height: 350px;
+	border: 1px solid #DCE0E0;
+}
+
+.accommodation_image {
+	height: 260px;
+	padding: 0;
+}
+
+.accommodation_price_container {
+	position: relative;
+	top: -63px;
+	height: 36px;
+	background-color: #3c3f40;
+	padding: 0px; !important
+}
+
+.accommodation_name {
+	position: relative;
+	top: -35px;
+}
+
+.accommodation_price{
+	color: white;
+	font-size: 15px;
+}
+
+#map{
+	height: 910px;
+}
+
+
+
+

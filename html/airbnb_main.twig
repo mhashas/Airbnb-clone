@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link href="./css/airbnb_main.css" rel="stylesheet" type="text/css"/>
+	<link href="./css/general.css" rel="stylesheet" type="text/css"/>
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+	<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+	<title>Airbnb</title>
+	<script>
+		$(function () {
+			$("#start_date_picker").datepicker({
+				minDate: 0,
+				changeMonth: true,
+				numberOfMonths: 3,
+				onClose: function (selectedDate) {
+					$("#end_date_picker").datepicker("option", "minDate", selectedDate);
+				}
+			});
+			$("#end_date_picker").datepicker({
+				minDate: 0,
+				changeMonth: true,
+				numberOfMonths: 3,
+				onClose: function (selectedDate) {
+					$("#start_date_picker").datepicker("option", "maxDate", selectedDate);
+				}
+			});
+		});
+	</script>
+
+</head>
+<body>
+	<div id="airbnb_logo">
+		<img id="airbnb_image" src="./images/logo.png">
+	</div>
+	<h1 id="welcome_home">WELCOME HOME</h1>
+	<p id="welcome_home_p">Rent unique places to stay from local hosts in 190+ countries</p>
+
+	<div class="form-group search_container">
+		<form id="search_parameters" method="post" action="main.php">
+			<input type="hidden" name="submitted" value="1" />
+			<input type="text" name="city" class="col-xs-3" placeholder="Where do you want to go?">
+			<input type="text" name="start_date" id="start_date_picker" class="col-xs-2" placeholder="First day of your vacation">
+			<input type="text" name="end_date" id="end_date_picker" class="col-xs-2" placeholder="Last day of your vacation">
+			<select name="number_of_guests" class="col-xs-1">
+				{% for i in 1..15 %}
+					<option id="option_{{ i }}" value="{{ i }}">{{ i }} Guests</option>
+				{% endfor %}
+				<option id="option_16" value="16">16+ Guests</option>
+			</select>
+			<button name="submit" type="submit" class="btn col-xs-1" id="submit_btn" value="submit">
+				Search
+			</button>
+		</form>
+	</div>
+</body>
+</html>
